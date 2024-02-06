@@ -26,9 +26,9 @@ from .serializers import (BriefRecipeSerializer, FavoriteSerializer,
 class CustomUserViewSet(UserViewSet):
 
     @action(
-            detail=False,
-            methods=['get'],
-            permission_classes=[IsAuthenticated]
+        detail=False,
+        methods=['get'],
+        permission_classes=[IsAuthenticated]
     )
     def me(self, request):
         serializer = self.get_serializer(request.user)
@@ -110,11 +110,11 @@ class RecipeViewSet(ModelViewSet):
         return RecipeCreateSerializer
 
     @action(
-            detail=True,
-            methods=['post'],
-            url_path='favorite',
-            url_name='favorite',
-            permission_classes=(IsAuthenticated,)
+        detail=True,
+        methods=['post'],
+        url_path='favorite',
+        url_name='favorite',
+        permission_classes=(IsAuthenticated,)
     )
     def favorite(self, request, pk):
         """Добавление рецепта в избранное."""
@@ -123,13 +123,13 @@ class RecipeViewSet(ModelViewSet):
         recipe = get_object_or_404(Recipe, id=pk)
         serializer = FavoriteSerializer(
             data={'user': request.user.id, 'recipe': recipe.id}
-            )
+        )
         serializer.is_valid(raise_exception=True)
         serializer.save()
         favorite_serializer = BriefRecipeSerializer(recipe)
         return Response(
             favorite_serializer.data, status=status.HTTP_201_CREATED
-            )
+        )
 
     @favorite.mapping.delete
     def delete_favorite(self, request, pk):
@@ -151,9 +151,9 @@ class RecipeViewSet(ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(
-            detail=True,
-            methods=['post'],
-            permission_classes=(IsAuthenticated,)
+        detail=True,
+        methods=['post'],
+        permission_classes=(IsAuthenticated,)
     )
     def shopping_cart(self, request, pk):
         """Добавление рецептов в корзину."""
@@ -162,13 +162,13 @@ class RecipeViewSet(ModelViewSet):
         recipe = get_object_or_404(Recipe, id=pk)
         serializer = ShoppingCartSerializer(
             data={'user': request.user.id, 'recipe': recipe.id}
-            )
+        )
         serializer.is_valid(raise_exception=True)
         serializer.save()
         shopping_cart_serializer = BriefRecipeSerializer(recipe)
         return Response(
             shopping_cart_serializer.data, status=status.HTTP_201_CREATED
-            )
+        )
 
     @shopping_cart.mapping.delete
     def delete_shopping_cart(self, request, pk):
@@ -190,9 +190,9 @@ class RecipeViewSet(ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(
-            detail=False,
-            methods=['get'],
-            permission_classes=[IsAuthenticated],
+        detail=False,
+        methods=['get'],
+        permission_classes=[IsAuthenticated],
     )
     def download_shopping_cart(self, request):
         """Выгрузка корзины (списка покупок) с рецептами."""
