@@ -1,12 +1,23 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from .validators import validate_username
+
 
 class User(AbstractUser):
     """Кастомный класс пользователя."""
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ('username', 'first_name', 'last_name', 'password')
+
+    username = models.CharField(
+        max_length=150,
+        blank=False,
+        null=False,
+        unique=True,
+        validators=[validate_username,],
+        verbose_name='username'
+    )
 
     first_name = models.CharField(
         max_length=150,
