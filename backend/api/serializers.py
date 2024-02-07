@@ -1,8 +1,8 @@
 from djoser.serializers import UserCreateSerializer, UserSerializer
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
-from users.models import Subscription, User
 
+from users.models import Subscription, User
 from .services.image_decoder import Base64ImageField
 from recipes.models import (Favorite, Ingredient, IngredientRecipe, Recipe,
                             ShoppingCart, Tag)
