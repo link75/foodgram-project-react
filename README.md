@@ -84,8 +84,8 @@ python manage.py createsuperuser
 ## Запуск проекта в Docker контейнерах
 1. Установить Docker
 ```
-Параметры запуска описаны в файлах docker-compose.yml и nginx.conf, которые находятся в директории infra/.
-При необходимости отредактируйте файл nginx.conf
+Параметры запуска описаны в файлах docker-compose.yml и nginx.conf и находятся в директории infra/.
+При необходимости отредактируйте файл nginx.conf.
 ```
 2. Собрать контейнеры с помощью Docker Compose
 ```

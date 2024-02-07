@@ -15,7 +15,7 @@ class User(AbstractUser):
         blank=False,
         null=False,
         unique=True,
-        validators=[validate_username,],
+        validators=[validate_username],
         verbose_name='username'
     )
 
