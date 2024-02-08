@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.safestring import mark_safe
 
 from recipes.models import (Favorite, Ingredient, IngredientRecipe, Recipe,
                             ShoppingCart, Tag)
@@ -21,15 +22,29 @@ class IngredientAdmin(admin.ModelAdmin):
 
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'author')
+    list_display = ('name', 'get_ingredients', 'get_image', 'author')
     list_filter = ('author', 'name', 'tags')
     inlines = (IngredientRecipeInline,)
+
+    @admin.display(description='Ингредиенты')
+    def get_ingredients(self, obj):
+        return ', '.join(
+            (ingredient.name for ingredient in obj.ingredients.all())
+        )
+
+    @admin.display(description='Изображение')
+    def get_image(self, obj):
+        return mark_safe(f'<img src="{obj.image.url}" width=75>')
 
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
-    list_display = ('name', 'color', 'slug')
+    list_display = ('name', 'get_colored_tag', 'slug')
     search_fields = ('name',)
+
+    @admin.display(description='Цвет в HEX')
+    def get_colored_tag(self, obj):
+        return mark_safe(f'<span style="color:{obj.color}">{obj.color}</span>')
 
 
 @admin.register(IngredientRecipe)
