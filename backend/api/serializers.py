@@ -1,9 +1,9 @@
 from djoser.serializers import UserSerializer
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
-from users.models import Subscription, User
 
 from .services.image_decoder import Base64ImageField
+from users.models import Subscription, User
 from recipes.models import (Favorite, Ingredient, IngredientRecipe, Recipe,
                             ShoppingCart, Tag)
 from recipes.constants import (MIN_COOKING_TIME_IN_MINUTES,
@@ -118,16 +118,19 @@ class RecipeSerializer(serializers.ModelSerializer):
 
     def get_is_favorited(self, obj):
         request = self.context.get('request')
-        if request is None or request.user.is_anonymous:
-            return False
-        return Favorite.objects.filter(user=request.user, recipe=obj).exists()
+        return (
+            request.user.is_authenticated
+            and Favorite.objects.filter(user=request.user, recipe=obj).exists()
+        )
 
     def get_is_in_shopping_cart(self, obj):
         request = self.context.get('request')
-        if request is None or request.user.is_anonymous:
-            return False
-        return ShoppingCart.objects.filter(
-            user=request.user, recipe=obj).exists()
+        return (
+            request.user.is_authenticated
+            and ShoppingCart.objects.filter(
+                user=request.user, recipe=obj
+            ).exists()
+        )
 
 
 class RecipeCreateSerializer(serializers.ModelSerializer):
@@ -187,14 +190,17 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         return ingredients
 
     def validate_tags(self, tags):
-        if len(set(tags)) != len(tags):
-            raise serializers.ValidationError(
-                'Теги должны быть уникальными.'
-            )
+        for tag in tags:
+            if tags.count(tag) > 1:
+                raise serializers.ValidationError(
+                    f'Тег "{tag}" повторяется!'
+                    f'Все теги должны быть уникальными.'
+                )
         return tags
 
     @staticmethod
     def create_ingredients(ingredients, recipe):
+        ingredients.sort(key=lambda x: x.get('name', ''))
         items = []
         for ingredient in ingredients:
             current_ingredient = Ingredient.objects.get(
