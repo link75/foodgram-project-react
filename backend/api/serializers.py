@@ -317,6 +317,12 @@ class FavoriteShoppingCartBaseModelSerializer(serializers.ModelSerializer):
     class Meta:
         abstract = True
 
+    def to_representation(self, instance):
+        request = self.context.get('request')
+        return BriefRecipeSerializer(
+            instance.recipe, context={'request': request}
+        ).data
+
 
 class FavoriteSerializer(FavoriteShoppingCartBaseModelSerializer):
     """Сериализатор для избранных рецептов."""
