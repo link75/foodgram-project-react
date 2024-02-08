@@ -107,7 +107,7 @@ docker-compose exec backend python manage.py createsuperuser
 ```
 docker-compose exec backend python manage.py collectstatic
 ```
-##
-
-
-
+## Демоверсия
+[Foodgram - продуктовый помощник](https://foodgrambox.ddns.net/recipes)
+## Автор
+[Максим Уколов](https://github.com/link75)
