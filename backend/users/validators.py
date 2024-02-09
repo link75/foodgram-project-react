@@ -2,7 +2,7 @@ import re
 
 from django.core.exceptions import ValidationError
 
-from .constants import FORBIDDEN_USERNAMES
+from foodgram.constants import FORBIDDEN_USERNAMES
 
 
 def validate_username(value):

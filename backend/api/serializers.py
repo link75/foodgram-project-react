@@ -2,12 +2,12 @@ from djoser.serializers import UserSerializer
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
-from .services.image_decoder import Base64ImageField
 from users.models import Subscription, User
+from .services.image_decoder import Base64ImageField
+from foodgram.constants import (MIN_COOKING_TIME_IN_MINUTES,
+                                MIN_INGREDIENTS_AMOUNT)
 from recipes.models import (Favorite, Ingredient, IngredientRecipe, Recipe,
                             ShoppingCart, Tag)
-from recipes.constants import (MIN_COOKING_TIME_IN_MINUTES,
-                               MIN_INGREDIENTS_AMOUNT)
 
 
 class CustomUserSerializer(UserSerializer):

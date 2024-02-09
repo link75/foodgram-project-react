@@ -1,8 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from .constants import MAX_NAME_LENGTH
 from .validators import validate_username
+from foodgram.constants import MAX_NAME_LENGTH
 
 
 class User(AbstractUser):

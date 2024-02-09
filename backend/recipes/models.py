@@ -1,13 +1,14 @@
 from django.core.validators import MinValueValidator
 from django.db import models
-from users.models import User
 
-from .constants import (MAX_INGREDIENT_MEASUREMENT_UNIT_LENGTH,
-                        MAX_INGREDIENT_NAME_LENGTH, MAX_RECIPE_NAME_LENGTH,
-                        MAX_TAG_COLOR_LENGTH, MAX_TAG_NAME_LENGTH,
-                        MAX_TAG_SLUG_LENGTH, MIN_COOKING_TIME_IN_MINUTES,
-                        MIN_INGREDIENTS_AMOUNT)
+from users.models import User
 from .validators import validate_color
+from foodgram.constants import (MAX_INGREDIENT_MEASUREMENT_UNIT_LENGTH,
+                                MAX_INGREDIENT_NAME_LENGTH,
+                                MAX_RECIPE_NAME_LENGTH, MAX_TAG_COLOR_LENGTH,
+                                MAX_TAG_NAME_LENGTH, MAX_TAG_SLUG_LENGTH,
+                                MIN_COOKING_TIME_IN_MINUTES,
+                                MIN_INGREDIENTS_AMOUNT)
 
 
 class Ingredient(models.Model):
